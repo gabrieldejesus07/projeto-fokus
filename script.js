@@ -13,9 +13,10 @@ const musica = new Audio('sons/luna-rise-part-one.mp3')
 const musicaStart = new Audio('sons/play.wav')
 const musicaPausa = new Audio('sons/pause.mp3')
 const musicaBeep = new Audio('sons/beep.mp3')
+const tempoNaTela = document.querySelector('#timer')
 musica.loop = true
 
-let tempoDecorridoEmSegundos = 5
+let tempoDecorridoEmSegundos = 1500
 let intervaloId = null
 
 musicaFocoImput.addEventListener('change', () => {
@@ -79,8 +80,7 @@ const contagemRegressiva = () => {
         return
     }
     tempoDecorridoEmSegundos -= 1
-    console.log(tempoDecorridoEmSegundos)
-
+    mostrarTempo()
 }
 
 startPauseButton.addEventListener('click', iniciarOuPausar)
@@ -103,6 +103,14 @@ function zerar(){
     imagemPlayPause.setAttribute('src', './imagens/play_arrow.png')
     intervaloId = null
 }
+
+function mostrarTempo() {
+    const tempo = tempoDecorridoEmSegundos
+    tempoNaTela.innerHTML = `${tempo}`
+}
+
+mostrarTempo()
+
 
 
 
