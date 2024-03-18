@@ -3,11 +3,16 @@ const focoButton = document.querySelector('.app__card-button--foco')
 const curtoButton = document.querySelector('.app__card-button--curto')
 const longoButton = document.querySelector('.app__card-button--longo')
 const banner = document.querySelector('.app__image')
+const imagemPlayPause = document.querySelector('.app__card-primary-butto-icon')
 const titulo = document.querySelector('.app__title')
 const botoes = document.querySelectorAll('.app__card-button')
 const startPauseButton = document.querySelector('#start-pause')
 const musicaFocoImput = document.querySelector('#alternar-musica')
+const iniciarPausarButton = document.querySelector('#start-pause span')
 const musica = new Audio('sons/luna-rise-part-one.mp3')
+const musicaStart = new Audio('sons/play.wav')
+const musicaPausa = new Audio('sons/pause.mp3')
+const musicaBeep = new Audio('sons/beep.mp3')
 musica.loop = true
 
 let tempoDecorridoEmSegundos = 5
@@ -41,7 +46,7 @@ function alterarContexto(contexto){
         contexto.classList.remove('active')
     })
     html.setAttribute('data-contexto', contexto)
-    banner.setAttribute('src', `/imagens/${contexto}.png`)
+    banner.setAttribute('src', `./imagens/${contexto}.png`)
     switch (contexto) {
         case 'foco':
             titulo.innerHTML = `
@@ -68,8 +73,9 @@ function alterarContexto(contexto){
 
 const contagemRegressiva = () => {
     if(tempoDecorridoEmSegundos <=0){
-        zerar()
+        musicaBeep.play()
         alert('Tempo finalizado!')
+        zerar()
         return
     }
     tempoDecorridoEmSegundos -= 1
@@ -81,14 +87,20 @@ startPauseButton.addEventListener('click', iniciarOuPausar)
 
 function iniciarOuPausar(){
     if(intervaloId){
+        musicaPausa.play()
         zerar()
         return
     }
+    musicaStart.play()
     intervaloId = setInterval(contagemRegressiva, 1000)
+    iniciarPausarButton.textContent = "Pausar"
+    imagemPlayPause.setAttribute('src', './imagens/pause.png')
 }
 
 function zerar(){
     clearInterval(intervaloId)
+    iniciarPausarButton.textContent = "Começar"
+    imagemPlayPause.setAttribute('src', './imagens/play_arrow.png')
     intervaloId = null
 }
 
