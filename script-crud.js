@@ -6,6 +6,10 @@ const ulTarefas = document.querySelector('.app__section-task-list')
 //Se não houver nada no localStorage, ele vai retornar um array vazio
 const tarefas = JSON.parse(localStorage.getItem('tarefas')) || []
 
+function atualizarTarefas () {
+    localStorage.setItem('tarefas', JSON.stringify(tarefas))
+}
+
 function criarElementoTarefa(tarefa){
     const li = document.createElement('li')
     li.classList.add('app__section-task-list-item')
@@ -20,8 +24,16 @@ function criarElementoTarefa(tarefa){
     const paragrafo = document.createElement('p')
     paragrafo.textContent = tarefa.descricao
     paragrafo.classList.add('app__section-task-list-item-description')
+    
     const botao = document.createElement('button')
     botao.classList.add('app_button-edit')
+    botao.onclick = () => {
+        const novaDescricao = prompt("Qual é o novo nome da tarefa?")
+        paragrafo.textContent = novaDescricao
+        tarefa.descricao = novaDescricao
+        atualizarTarefas()
+    }
+
     const imagemBotao = document.createElement('img')
     imagemBotao.setAttribute('src', '/imagens/edit.png')
     botao.append(imagemBotao)
@@ -45,7 +57,11 @@ formAdicionarTarefa.addEventListener('submit', (evento) => {
         descricao: textArea.value
      }
      tarefas.push(tarefa)
-     localStorage.setItem('tarefas', JSON.stringify(tarefas))
+     const elementoTarefa = criarElementoTarefa(tarefa)
+     ulTarefas.append(elementoTarefa)
+     atualizarTarefas()
+     textArea.value = '' 
+     formAdicionarTarefa.classList.add('hidden')
 })
 
 tarefas.forEach(tarefa => {
