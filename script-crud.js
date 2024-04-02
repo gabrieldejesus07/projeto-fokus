@@ -2,6 +2,7 @@ const btnAdicionarTarefa = document.querySelector('.app__button--add-task')
 const formAdicionarTarefa = document.querySelector('.app__form-add-task')
 const textArea = document.querySelector('.app__form-textarea')
 const ulTarefas = document.querySelector('.app__section-task-list')
+const btnCancelarTarefa = document.querySelector('.app__form-footer__button--cancel')
 
 //Se não houver nada no localStorage, ele vai retornar um array vazio
 const tarefas = JSON.parse(localStorage.getItem('tarefas')) || []
@@ -29,9 +30,11 @@ function criarElementoTarefa(tarefa){
     botao.classList.add('app_button-edit')
     botao.onclick = () => {
         const novaDescricao = prompt("Qual é o novo nome da tarefa?")
-        paragrafo.textContent = novaDescricao
-        tarefa.descricao = novaDescricao
-        atualizarTarefas()
+        if (novaDescricao) {
+            paragrafo.textContent = novaDescricao
+            tarefa.descricao = novaDescricao
+            atualizarTarefas()
+        }
     }
 
     const imagemBotao = document.createElement('img')
@@ -49,6 +52,11 @@ function criarElementoTarefa(tarefa){
 btnAdicionarTarefa.addEventListener('click', () =>{
     formAdicionarTarefa.classList.toggle('hidden')
 })
+
+btnCancelarTarefa.addEventListener('click', () =>{
+    textArea.value = ''
+    formAdicionarTarefa.classList.toggle('hidden')
+} )
 
 // configurando botão salvar
 formAdicionarTarefa.addEventListener('submit', (evento) => {
