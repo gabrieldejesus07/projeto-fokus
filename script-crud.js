@@ -3,6 +3,7 @@ const formAdicionarTarefa = document.querySelector('.app__form-add-task')
 const textArea = document.querySelector('.app__form-textarea')
 const ulTarefas = document.querySelector('.app__section-task-list')
 const btnCancelarTarefa = document.querySelector('.app__form-footer__button--cancel')
+const paragrafoDescricaoTarefa = document.querySelector('.app__section-active-task-description')
 
 //Se não houver nada no localStorage, ele vai retornar um array vazio
 const tarefas = JSON.parse(localStorage.getItem('tarefas')) || []
@@ -44,6 +45,11 @@ function criarElementoTarefa(tarefa){
     li.append(svg)
     li.append(paragrafo)
     li.append(botao)
+
+    li.onclick = () => {
+        paragrafoDescricaoTarefa.textContent = tarefa.descricao
+        li.classList.add('app__section-task-list-item-active')
+    }
 
     return li
 
