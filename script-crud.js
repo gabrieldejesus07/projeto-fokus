@@ -4,9 +4,10 @@ const textArea = document.querySelector('.app__form-textarea')
 const ulTarefas = document.querySelector('.app__section-task-list')
 const btnCancelarTarefa = document.querySelector('.app__form-footer__button--cancel')
 const paragrafoDescricaoTarefa = document.querySelector('.app__section-active-task-description')
+const btnRemoverConcluidas = document.querySelector('#btn-remover-concluidas')
 
 //Se não houver nada no localStorage, ele vai retornar um array vazio
-const tarefas = JSON.parse(localStorage.getItem('tarefas')) || []
+let tarefas = JSON.parse(localStorage.getItem('tarefas')) || []
 let tarefaSelecionada = null
 let liTarefaSelecionada = null
 
@@ -114,3 +115,12 @@ document.addEventListener('focoFinalizado', () => {
         atualizarTarefas()
     }
 })
+
+btnRemoverConcluidas.onclick = () => {
+    const seletor = ".app__section-task-list-item-complete"
+    document.querySelectorAll(seletor).forEach(elemento =>{
+        elemento.remove()
+    })
+    tarefas = tarefas.filter(tarefa => !tarefa.completa)
+    atualizarTarefas()
+}
